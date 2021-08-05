@@ -57,13 +57,17 @@ programa{
 		g.definir_tamanho_texto(textSize*WINDOW_SCALE)
 		g.desenhar_texto(2*WINDOW_SCALE, 2*WINDOW_SCALE, "Pontuação Atual: " + points)
 	}
+
+	//Snake
+	funcao drawSnakeHead(){
+	}
 }
 /* $$$ Portugol Studio $$$ 
  * 
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 246; 
+ * @POSICAO-CURSOR = 1234; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
