@@ -20,6 +20,9 @@ programa{
 	//Mechanics
 	inteiro points = 0
 
+	//Snake
+	inteiro snakeSprite = g.carregar_imagem("src/snake_sprite.png")
+	
 	//Main
 	funcao inicio(){
 		startScreen()
@@ -39,6 +42,7 @@ programa{
 		enquanto(verdadeiro){
 			paintScreen()
 			drawHUD()
+			drawSnakeHead()
 			g.renderizar()
 		}	
 	}
@@ -60,6 +64,8 @@ programa{
 
 	//Snake
 	funcao drawSnakeHead(){
+		g.desenhar_imagem(300, 300, snakeSprite)
+		g.desenhar
 	}
 }
 /* $$$ Portugol Studio $$$ 
@@ -67,7 +73,7 @@ programa{
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 1234; 
+ * @POSICAO-CURSOR = 1385; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
