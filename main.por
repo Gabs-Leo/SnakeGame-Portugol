@@ -21,13 +21,21 @@ programa{
 	inteiro points = 0
 
 	//Snake
-	inteiro snakeSprite = g.carregar_imagem("src/snake_sprite.png")
+	inteiro snakeHead = g.carregar_imagem("src/snake_head.png")
+	logico direita = falso,
+		esquerda = falso,
+		cima = falso,
+		baixo = falso
+	inteiro xSnakeHead = (WINDOW_WIDTH*WINDOW_SCALE)/2
+	inteiro ySnakeHead = (WINDOW_HEIGHT*WINDOW_SCALE)/2
+	inteiro delay = 120
+	inteiro speed = 5
 	
 	//Main
 	funcao inicio(){
 		startScreen()
 		eventTick()
-
+		
 	}
 
 	//Start Screen
@@ -42,8 +50,12 @@ programa{
 		enquanto(verdadeiro){
 			paintScreen()
 			drawHUD()
+			snakeDirection()
+			moveSnake()
+			restartGame()
 			drawSnakeHead()
 			g.renderizar()
+			util.aguarde(delay)
 		}	
 	}
 
@@ -62,10 +74,84 @@ programa{
 		g.desenhar_texto(2*WINDOW_SCALE, 2*WINDOW_SCALE, "Pontuação Atual: " + points)
 	}
 
-	//Snake
+	//Snake Head
 	funcao drawSnakeHead(){
-		g.desenhar_imagem(300, 300, snakeSprite)
-		g.desenhar
+		g.desenhar_imagem(xSnakeHead - g.largura_imagem(snakeHead)/2, ySnakeHead - g.altura_imagem(snakeHead)/2, snakeHead)
+	}
+
+	//Direction
+	funcao snakeDirection(){
+		se (kb.tecla_pressionada(kb.TECLA_SETA_DIREITA)){
+			direita = verdadeiro
+			esquerda = falso
+			baixo = falso
+			cima = falso
+		}senao se(kb.tecla_pressionada(kb.TECLA_SETA_ESQUERDA)){
+			esquerda = verdadeiro
+			direita = falso
+			baixo = falso
+			cima = falso
+		}
+		se(kb.tecla_pressionada(kb.TECLA_SETA_ACIMA)){
+			cima = verdadeiro
+			direita = falso
+			baixo = falso
+			esquerda = falso
+		}senao se(kb.tecla_pressionada(kb.TECLA_SETA_ABAIXO)){
+			baixo = verdadeiro
+			direita = falso
+			cima = falso
+			esquerda = falso
+		}
+	}
+
+	//Moving Snake
+	funcao moveSnake(){
+		se (direita){
+			xSnakeHead += speed*WINDOW_SCALE
+			g.liberar_imagem(snakeHead)
+			snakeHead = g.carregar_imagem("src/snake_head_right.png")
+			escreva("\n" + xSnakeHead)
+			
+		}senao se(esquerda){
+			xSnakeHead -= speed*WINDOW_SCALE
+			g.liberar_imagem(snakeHead)
+			snakeHead = g.carregar_imagem("src/snake_head_left.png")
+			escreva("\n" + xSnakeHead)
+		}
+		se(cima){
+			ySnakeHead -= speed*WINDOW_SCALE
+			g.liberar_imagem(snakeHead)
+			snakeHead = g.carregar_imagem("src/snake_head.png")
+			escreva("\n" + ySnakeHead)
+		}senao se(baixo){
+			ySnakeHead += speed*WINDOW_SCALE
+			g.liberar_imagem(snakeHead)
+			snakeHead = g.carregar_imagem("src/snake_head_down.png")
+			escreva("\n" + ySnakeHead)
+		}
+	}
+
+	//Did it collide?
+	funcao logico wallCollide(){
+		se(xSnakeHead > WINDOW_WIDTH*WINDOW_SCALE ou xSnakeHead < 0){
+			retorne verdadeiro
+		}senao se(ySnakeHead > WINDOW_HEIGHT*WINDOW_SCALE ou ySnakeHead < 0){
+			retorne verdadeiro
+		}
+		retorne falso
+	}
+
+	//Restart
+	funcao restartGame(){
+		se(wallCollide()){
+			xSnakeHead = (WINDOW_WIDTH*WINDOW_SCALE)/2
+			ySnakeHead = (WINDOW_HEIGHT*WINDOW_SCALE)/2
+			cima = falso
+			direita = falso
+			baixo = falso
+			esquerda = falso
+		}
 	}
 }
 /* $$$ Portugol Studio $$$ 
@@ -73,7 +159,7 @@ programa{
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 1385; 
+ * @POSICAO-CURSOR = 2416; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
