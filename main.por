@@ -28,8 +28,18 @@ programa{
 		baixo = falso
 	inteiro xSnakeHead = (WINDOW_WIDTH*WINDOW_SCALE)/2
 	inteiro ySnakeHead = (WINDOW_HEIGHT*WINDOW_SCALE)/2
-	inteiro delay = 120
+	inteiro delay = 100
 	inteiro speed = 5
+
+	inteiro xSnakeTail 
+	inteiro ySnakeTail 
+
+	//Food
+	inteiro foodSprite = g.carregar_imagem("src/food.png")
+	inteiro xFoodPos[14] = {80, 160, 240, 320, 400, 480, 560, 640, 720, 800, 880, 960, 1040, 1120},
+		yFoodPos[9] = {160, 240, 320, 400, 480, 560, 640, 720, 800}
+	inteiro xFood = 300
+	inteiro yFood = 300
 	
 	//Main
 	funcao inicio(){
@@ -53,7 +63,11 @@ programa{
 			snakeDirection()
 			moveSnake()
 			restartGame()
+			
 			drawSnakeHead()
+			drawFood()
+			spawnFood()
+			
 			g.renderizar()
 			util.aguarde(delay)
 		}	
@@ -136,7 +150,7 @@ programa{
 	funcao logico wallCollide(){
 		se(xSnakeHead > WINDOW_WIDTH*WINDOW_SCALE ou xSnakeHead < 0){
 			retorne verdadeiro
-		}senao se(ySnakeHead > WINDOW_HEIGHT*WINDOW_SCALE ou ySnakeHead < 0){
+		}senao se(ySnakeHead > WINDOW_HEIGHT*WINDOW_SCALE ou ySnakeHead < 0 + 10*WINDOW_SCALE){
 			retorne verdadeiro
 		}
 		retorne falso
@@ -153,13 +167,37 @@ programa{
 			esquerda = falso
 		}
 	}
+
+	//Eating
+	funcao logico snakeEat(){
+		se(xSnakeHead > xFood e xSnakeHead < xFood + 80 e ySnakeHead > yFood e ySnakeHead < yFood + 80){
+			retorne verdadeiro
+		}senao{
+			retorne falso
+		}
+	}
+
+	//Spawn Food
+	funcao spawnFood(){
+		inteiro xIndex = util.sorteia(0, 13)
+		inteiro yIndex = util.sorteia(0, 8)
+		se(snakeEat()){
+			xFood = xFoodPos[xIndex]
+			yFood = yFoodPos[yIndex]
+		}
+	}
+
+	//Draw Food
+	funcao drawFood(){
+		g.desenhar_imagem(xFood, yFood, foodSprite)
+	}
 }
 /* $$$ Portugol Studio $$$ 
  * 
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 2416; 
+ * @POSICAO-CURSOR = 1078; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
